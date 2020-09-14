@@ -14,7 +14,7 @@ public class MommifierTest {
     @Test
     void should_return_inserted_string_when_convert_vowels_are_more_than_30_percent() {
         Mommifier mommifier = new Mommifier();
-        String result = mommifier.convert("giil");
-        assertEquals("gimommyil", result);
+        String result = mommifier.convert("giilii");
+        assertEquals("gimommyilimommyi", result);
     }
 }

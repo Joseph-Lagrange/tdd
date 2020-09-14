@@ -1,38 +1,41 @@
-import java.math.BigDecimal;
-import java.util.Arrays;
+import java.util.Objects;
+import java.util.stream.Stream;
 
-public class Mommifier {
+class Mommifier {
 
-    public String convert(String calculateStr) {
+    private static final int RequestNumber = 30;
+    private static final String InsertString = "mommy";
+    private static final String VowelString = "aeiou";
+
+    String convert(String convertStr) {
         int vowelNum = 0;
-        int[] flag = new int[calculateStr.length()];
-        char[] vowels = {'a', 'e', 'i', 'o', 'u'};
-        for (int i = 0; i < calculateStr.length(); i++) {
-            for (char vowel : vowels) {
-                if (calculateStr.charAt(i) == vowel) {
-                    vowelNum++;
-                    flag[i] = 1;
-                }
+        int[] indexArr = new int[convertStr.length()];
+        for (int i = 0; i < convertStr.length(); i++) {
+            String charStr = String.valueOf(convertStr.charAt(i));
+            boolean isVowel = Stream.of(VowelString.split("")).anyMatch(v -> Objects.equals(v, charStr));
+            if (isVowel) {
+                vowelNum++;
+                indexArr[i] = 1;
             }
         }
-        if (vowelNum != 0 && calculate(vowelNum, calculateStr.length()) > 30) {
-            return insert(calculateStr, flag);
+        if (vowelNum > 1 && isVaild(vowelNum, convertStr.length())) {
+            return insert(convertStr, indexArr);
         }
-        return calculateStr;
+        return convertStr;
     }
 
-    private String insert(String calculateStr, int[] flag) {
+    private String insert(String convertStr, int[] flag) {
         StringBuilder insertedStr = new StringBuilder();
         for (int i = 0; i < flag.length; i++) {
-            insertedStr.append(calculateStr.charAt(i));
+            insertedStr.append(convertStr.charAt(i));
             if (flag[i] == 1 && i + 1 < flag.length && flag[i+1] == 1) {
-                insertedStr.append("mommy");
+                insertedStr.append(InsertString);
             }
         }
         return insertedStr.toString();
     }
 
-    private int calculate(int vowelNum, int length) {
-        return (int)((new BigDecimal((float) vowelNum / length).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue())*100);
+    private boolean isVaild(int vowelNum, int length) {
+        return ((float) vowelNum / length) * 100 > RequestNumber;
     }
 }
