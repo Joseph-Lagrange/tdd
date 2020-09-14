@@ -5,9 +5,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class MommifierTest {
 
     @Test
-    void should_return_original_string_when_calculate_vowels_are_less_than_30_percent() {
+    void should_return_original_string_when_convert_vowels_are_less_than_30_percent() {
         Mommifier mommifier = new Mommifier();
-        String result = mommifier.calculate("girl");
+        String result = mommifier.convert("girl");
         assertEquals("girl", result);
+    }
+
+    @Test
+    void should_return_inserted_string_when_convert_vowels_are_more_than_30_percent() {
+        Mommifier mommifier = new Mommifier();
+        String result = mommifier.convert("giil");
+        assertEquals("gimommyil", result);
     }
 }
